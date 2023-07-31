@@ -23,6 +23,10 @@ add_action('after_setup_theme', 'university_features');
 
 // function uni_post_types() {
 //   register_post_type('event', array(
+//     'rewrite' => array(
+//       'slug' => 'events'
+//     ),
+//     'has_archive' => true,
 //     'public' => true,
 //     'show_in_rest' => true,
 //     'labels' => array(
