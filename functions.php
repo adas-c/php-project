@@ -15,6 +15,7 @@ function university_features() {
   register_nav_menu('headerMenu', 'Header Manu Location');
   register_nav_menu('footerMenuOne', 'Footer Manu Location One');
   register_nav_menu('footerMenuTwo', 'Footer Manu Location Two');
+  add_theme_support('post-thumbnails');
 }
 
 add_action('after_setup_theme', 'university_features');
@@ -68,6 +69,7 @@ add_action('pre_get_posts', 'uni_adjust_queries');
 //     ),
 //     'menu_icon' => 'dashicons-calendar'
 //   ));
+
 //   // Program post type
 //   register_post_type('program', array(
 //     'supports' => array('title','editor'),
@@ -85,6 +87,20 @@ add_action('pre_get_posts', 'uni_adjust_queries');
 //       'singular_name' => 'Program'
 //     ),
 //     'menu_icon' => 'dashicons-awards'
+//   ));
+//   // Professor post type
+//   register_post_type('professor', array(
+//     'supports' => array('title','editor','thumbnail'),
+//     'public' => true,
+//     'show_in_rest' => true,
+//     'labels' => array(
+//       'name' => 'Professors',
+//       'add_new_item' => 'Add New Professor',
+//       'edit_item' => 'Edit Professor',
+//       'all_items' => 'All Professors',
+//       'singular_name' => 'Professor'
+//     ),
+//     'menu_icon' => 'dashicons-welcome-learn-more'
 //   ));
 // };
 
