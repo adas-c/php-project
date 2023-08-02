@@ -23,6 +23,7 @@ add_action('after_setup_theme', 'university_features');
 
 // function uni_post_types() {
 //   register_post_type('event', array(
+//     'supports' => array('title','editor','excerpt'),
 //     'rewrite' => array(
 //       'slug' => 'events'
 //     ),
