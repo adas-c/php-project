@@ -21,7 +21,13 @@ add_action('after_setup_theme', 'university_features');
 
 
 function uni_adjust_queries($query) {
-  if (!is_admin() && is_post_type_archive('event') && $query->is_main_query()) {
+  if (!is_admin() && is_post_type_archive('program') && is_main_query()) {
+    $query->set('orderby','title'); 
+    $query->set('order', 'ASC');
+    $query->set('post_per_page', -1);
+  }
+
+  if (!is_admin() && is_post_type_archive('event') && is_main_query()) {
     $today = date('Ymd');
     $query->set('meta_key', 'event_date');
     $query->set('orderby', 'meta_value_val');
@@ -44,6 +50,7 @@ add_action('pre_get_posts', 'uni_adjust_queries');
 // function moved to new file called 'must use plugins'
 
 // function uni_post_types() {
+//   // Events post type
 //   register_post_type('event', array(
 //     'supports' => array('title','editor','excerpt'),
 //     'rewrite' => array(
@@ -60,6 +67,24 @@ add_action('pre_get_posts', 'uni_adjust_queries');
 //       'singular_name' => 'Event'
 //     ),
 //     'menu_icon' => 'dashicons-calendar'
+//   ));
+//   // Program post type
+//   register_post_type('program', array(
+//     'supports' => array('title','editor'),
+//     'rewrite' => array(
+//       'slug' => 'programs'
+//     ),
+//     'has_archive' => true,
+//     'public' => true,
+//     'show_in_rest' => true,
+//     'labels' => array(
+//       'name' => 'Programs',
+//       'add_new_item' => 'Add New Program',
+//       'edit_item' => 'Edit Program',
+//       'all_items' => 'All Programs',
+//       'singular_name' => 'Program'
+//     ),
+//     'menu_icon' => 'dashicons-awards'
 //   ));
 // };
 
