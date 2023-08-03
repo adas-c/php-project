@@ -1,11 +1,19 @@
 {
-  "name": "newtheme",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC"
+	"name": "newtheme",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"build": "wp-scripts build",
+		"start": "wp-scripts start"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"@glidejs/glide": "^3.6.0",
+		"@wordpress/scripts": "^26.9.0",
+		"axios": "^1.4.0",
+		"normalize.css": "^8.0.1"
+	}
 }
