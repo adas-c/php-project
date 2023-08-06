@@ -121,7 +121,7 @@ add_action('pre_get_posts', 'uni_adjust_queries');
 
 //   // Program post type
 //   register_post_type('program', array(
-//     'supports' => array('title','editor'),
+//     'supports' => array('title'),
 //     'rewrite' => array(
 //       'slug' => 'programs'
 //     ),
