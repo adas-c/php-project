@@ -42,7 +42,7 @@
                   <img class="professor-card__image" src="<?php the_post_thumbnail_url(); ?>" alt="">
                   <span class="professor-card__name"><?php the_title(); ?></span>
                 </a>
-            </li>
+              </li>
           <?php } 
           echo '</ul>';
         }

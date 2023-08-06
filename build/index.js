@@ -213,6 +213,7 @@ class Search {
     document.body.classList.add("body-no-scroll");
     setTimeout(() => this.searchField.focus(), 301);
     this.isOverlayOpen = true;
+    return false;
   }
   closeOverlay() {
     this.searchOverlay.classList.remove("search-overlay--active");
