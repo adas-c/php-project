@@ -1,6 +1,7 @@
 <?php
 
 require get_theme_file_path('/inc/search-route.php');
+require get_theme_file_path('/inc/like-rout.php');
 
 function uni_custom_rest(){
   register_rest_field('post', 'authorName', array(
@@ -194,6 +195,21 @@ function makeNotePrivate($data, $postarr) {
 //     ),
 //     'menu_icon' => 'dashicons-calendar'
 //   ));
+
+//     Like post type
+    // register_post_type('like', array(
+    //   'supports' => array('title'),
+    //   'show_ui' => true,
+    //   'public' => false,
+    //   'labels' => array(
+    //     'name' => 'Likes',
+    //     'add_new_item' => 'Add New Like',
+    //     'edit_item' => 'Edit Like',
+    //     'all_items' => 'All Likes',
+    //     'singular_name' => 'Like'
+    //   ),
+    //   'menu_icon' => 'dashicons-heart'
+    // ));
 
 //   // Program post type
 //   register_post_type('program', array(

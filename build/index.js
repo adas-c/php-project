@@ -14,9 +14,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_HeroSlider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/HeroSlider */ "./src/modules/HeroSlider.js");
 /* harmony import */ var _modules_Search__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/Search */ "./src/modules/Search.js");
 /* harmony import */ var _modules_MyNotes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/MyNotes */ "./src/modules/MyNotes.js");
+/* harmony import */ var _modules_Likes__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/Likes */ "./src/modules/Likes.js");
 
 
 // Our modules / classes
+
 
 
 
@@ -27,6 +29,7 @@ const mobileMenu = new _modules_MobileMenu__WEBPACK_IMPORTED_MODULE_1__["default
 const heroSlider = new _modules_HeroSlider__WEBPACK_IMPORTED_MODULE_2__["default"]();
 const search = new _modules_Search__WEBPACK_IMPORTED_MODULE_3__["default"]();
 const myNotes = new _modules_MyNotes__WEBPACK_IMPORTED_MODULE_4__["default"]();
+const likes = new _modules_Likes__WEBPACK_IMPORTED_MODULE_5__["default"]();
 
 /***/ }),
 
@@ -68,6 +71,80 @@ class HeroSlider {
   }
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (HeroSlider);
+
+/***/ }),
+
+/***/ "./src/modules/Likes.js":
+/*!******************************!*\
+  !*** ./src/modules/Likes.js ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+
+class Like {
+  constructor() {
+    if (document.querySelector(".like-box")) {
+      axios__WEBPACK_IMPORTED_MODULE_0__["default"].defaults.headers.common["X-WP-Nonce"] = uniData.nonce;
+      this.events();
+    }
+  }
+  events() {
+    document.querySelector(".like-box").addEventListener("click", e => this.ourClickDispatcher(e));
+  }
+
+  // methods
+  ourClickDispatcher(e) {
+    let currentLikeBox = e.target;
+    while (!currentLikeBox.classList.contains("like-box")) {
+      currentLikeBox = currentLikeBox.parentElement;
+    }
+    if (currentLikeBox.getAttribute("data-exists") == "yes") {
+      this.deleteLike(currentLikeBox);
+    } else {
+      this.createLike(currentLikeBox);
+    }
+  }
+  async createLike(currentLikeBox) {
+    try {
+      const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].post(uniData.root_url + "/wp-json/uni/v1/manageLike", {
+        professorId: currentLikeBox.getAttribute("data-professor")
+      });
+      if (response.data != "Only logged in users can create a like.") {
+        currentLikeBox.setAttribute("data-exists", "yes");
+        var likeCount = parseInt(currentLikeBox.querySelector(".like-count").innerHTML, 10);
+        likeCount++;
+        currentLikeBox.querySelector(".like-count").innerHTML = likeCount;
+        currentLikeBox.setAttribute("data-like", response.data);
+      }
+    } catch (e) {
+      console.log("Sorry");
+    }
+  }
+  async deleteLike(currentLikeBox) {
+    try {
+      const response = await (0,axios__WEBPACK_IMPORTED_MODULE_0__["default"])({
+        url: uniData.root_url + "/wp-json/uni/v1/manageLike",
+        method: "delete",
+        data: {
+          like: currentLikeBox.getAttribute("data-like")
+        }
+      });
+      currentLikeBox.setAttribute("data-exists", "no");
+      var likeCount = parseInt(currentLikeBox.querySelector(".like-count").innerHTML, 10);
+      likeCount--;
+      currentLikeBox.querySelector(".like-count").innerHTML = likeCount;
+      currentLikeBox.setAttribute("data-like", "");
+    } catch (e) {
+      console.log(e);
+    }
+  }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Like);
 
 /***/ }),
 
