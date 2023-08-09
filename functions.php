@@ -6,6 +6,10 @@ function uni_custom_rest(){
   register_rest_field('post', 'authorName', array(
     'get_callback' => function() { return get_the_author(); }
   ));
+
+  register_rest_field('notes', 'userNoteCout', array(
+    'get_callback' => function() { return count_user_posts(get_current_user_id(), 'note'); }
+  ));
 }
 
 add_action('rest_api_init','uni_custom_rest');
@@ -49,7 +53,8 @@ function university_files() {
   wp_enqueue_style('university_extra_styles', get_theme_file_uri('/build/index.css'));
 
   wp_localize_script('main-university-js', 'uniData', array(
-    'root_url' => get_site_url()
+    'root_url' => get_site_url(),
+    'nonce' => wp_create_nonce('wp_rest')
   ));
 
 }
@@ -142,6 +147,30 @@ function ourHeaderTitle(){
   return get_bloginfo('name');
 }
 
+
+// force note posts to be private
+
+add_filter('wp_insert_post_data', 'makeNotePrivate', 10, 2);
+
+function makeNotePrivate($data, $postarr) {
+
+  if ($data['post_type'] == 'notes') {
+    if (count_user_posts(get_current_user_id(), 'notes') > 4 && !$postarr['ID']) {
+      die('You have reach your note limit');
+    } 
+
+    $data['post_content'] = sanitize_textarea_field($data['post_content']);
+    $data['post_title'] = sanitize_text_field($data['post_title']);
+  }
+
+  if ($data['post_type'] == 'notes' && $data['post_status'] != 'trash') {
+    $data['post_status'] = 'private'; 
+  }
+
+  return $data;
+}
+
+
 // function moved to new file called 'must use plugins'
 
 // function uni_post_types() {
@@ -198,6 +227,21 @@ function ourHeaderTitle(){
 //     ),
 //     'menu_icon' => 'dashicons-welcome-learn-more'
 //   ));
+      // Notes post type
+      // register_post_type('notes', array(
+      //   'supports' => array('title','editor'),
+      //   'public' => false,
+      //   'show_ui' => true,
+      //   'show_in_rest' => true,
+      //   'labels' => array(
+      //     'name' => 'Notes',
+      //     'add_new_item' => 'Add New Note',
+      //     'edit_item' => 'Edit Note',
+      //     'all_items' => 'All Notes',
+      //     'singular_name' => 'Note'
+      //   ),
+      //   'menu_icon' => 'dashicons-welcome-write-blog'
+      // ));
 // };
 
 // add_action('init', 'uni_post_types');
